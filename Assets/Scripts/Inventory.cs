@@ -4,15 +4,37 @@ using UnityEngine;
 
 public class Inventory : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public int currentIndex = 0;
+    public List<GameObject> toggles = new List<GameObject>();
+    public void Awake()
     {
-        
+        var toggle = this.toggles[currentIndex].transform.Find("Toggle");
+        toggle.gameObject.SetActive(true);
     }
 
-    // Update is called once per frame
-    void Update()
+    public void TogglePositive()
     {
+        var toggle = this.toggles[currentIndex].transform.Find("Toggle");
+        toggle.gameObject.SetActive(false);
+
+        currentIndex+=1;
+        if(currentIndex >= this.toggles.Count)
+            currentIndex = 0;
         
+        toggle = this.toggles[currentIndex].transform.Find("Toggle");
+        toggle.gameObject.SetActive(true);
+    }
+
+    public void ToggleNegative()
+    {
+        var toggle = this.toggles[currentIndex].transform.Find("Toggle");
+        toggle.gameObject.SetActive(false);
+
+        currentIndex+=1;
+        if(currentIndex < 0)
+            currentIndex = this.toggles.Count-1;
+        
+        toggle = this.toggles[currentIndex].transform.Find("Toggle");
+        toggle.gameObject.SetActive(true);
     }
 }
