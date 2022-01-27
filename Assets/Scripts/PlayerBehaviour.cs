@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class PlayerBehaviour : MonoBehaviour
 {
+    public int keyCount = 0;
     public ObjectType type;
     public List<Material> playerMaterial = new List<Material>();
     public SkinnedMeshRenderer skinnedMeshRenderer;
@@ -45,5 +46,10 @@ public class PlayerBehaviour : MonoBehaviour
                 alreadyToggle = true;
             }
         }
+    }
+
+    void HandlePicking()
+    {
+        
     }
 }
