@@ -64,4 +64,10 @@ public class GameManager : MonoBehaviour
         }
         mono.StartCoroutine(thing());
     }
+
+    public static int winner = -1;
+
+    public static void GoToScene(string scene) {
+        SceneManager.LoadScene(scene);
+    }
 }

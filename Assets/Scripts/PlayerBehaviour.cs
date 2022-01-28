@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class PlayerBehaviour : MonoBehaviour, IHitable
 {
-    public float speed = 5;
+    public float speed = 1.5f;
     public int id = 0;
     public ObjectType type;
     public List<Material> playerMaterial = new List<Material>();

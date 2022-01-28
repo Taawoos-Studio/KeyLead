@@ -183,6 +183,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e37ddd205ce1cabdae7c94f5333b3df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  speed: 1.5
+  id: 0
   type: 0
   playerMaterial:
   - {fileID: 2100000, guid: 3fb1e0d50a1e4e75b8945f5780d6c39a, type: 2}
@@ -193,6 +195,7 @@ MonoBehaviour:
   plantClip: {fileID: 0}
   input: {x: 0, y: 0}
   camPivot: {fileID: 0}
+  projectile: {fileID: 0}
 --- !u!1 &4400911997385797395 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -8391222552659086748, guid: 3e508c83b52c22f39967bf2bccfc2905, type: 3}
