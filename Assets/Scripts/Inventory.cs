@@ -5,6 +5,11 @@ using UnityEngine.UI;
 
 public class Inventory : MonoBehaviour
 {
+    [Header("Prefabs")]
+    public GameObject key;
+    public GameObject mine;
+
+    [Space]
     public int currentIndex = 0;
     public int keyCount = 0;
     public int key1 = -1;
@@ -17,6 +22,9 @@ public class Inventory : MonoBehaviour
     public Sprite blackKeyUI;
     public Sprite whiteKeyUI;
     public Sprite trapUI;
+
+    [Space]
+    public PlayerBehaviour player;
 
     public void Awake()
     {
@@ -65,6 +73,41 @@ public class Inventory : MonoBehaviour
         }
     }
 
+    public void IndexAction() {
+        switch(this.toggles[currentIndex].name)
+        {
+            case "Key 1":
+            if(key1 != -1) {
+                player.doingAction = true;
+                pPlantKey(key1);
+                key1 = -1;
+                pUnsetInventoryKey(0);
+                this.player.TriggerDrop();
+            }
+            break;
+            case "Key 2":
+            if(key2 != -1) {
+                player.doingAction = true;
+                pPlantKey(key2);
+                key2 = -1;
+                pUnsetInventoryKey(1);
+                this.player.TriggerDrop();
+            }
+            break;
+            case "Key 3":
+            if(key3 != -1) {
+                player.doingAction = true;
+                pPlantKey(key3);
+                key3 = -1;
+                pUnsetInventoryKey(2);
+                this.player.TriggerDrop();
+            }
+            break;
+            case "Trap": break;
+            case "Gun": break;
+        }
+    }
+
     void AddKeyAt(int index, int color) {
         switch(index) {
             case 0: key1 = color; break;
@@ -84,6 +127,32 @@ public class Inventory : MonoBehaviour
             case 2: image.sprite = whiteKeyUI; break;
             default: break;
         }
+    }
+
+    void pUnsetInventoryKey(int index) {
+        var imageobj = this.keySlots[index].transform.Find("Image");
+        imageobj.gameObject.SetActive(false);
+    }
+
+    void pPlantKey(int color) {
+        switch(color)
+        {
+            case 1: GameManager.DoActionAfterTime(this, delegate {
+                pInitKeyWithColor(ObjectType.Black);
+                player.doingAction = false;
+            }, player.plantClip.length); break;
+            case 2: GameManager.DoActionAfterTime(this, delegate {
+                pInitKeyWithColor(ObjectType.White);
+                player.doingAction = false;
+            }, player.plantClip.length); break;
+        }
+    }
+
+    void pInitKeyWithColor(ObjectType type) {
+        var mKey = Instantiate(key, player.transform.position+(player.transform.forward/3*2), Quaternion.identity);
+        mKey.transform.position = new Vector3(mKey.transform.position.x, key.transform.position.y, mKey.transform.position.z);
+        mKey.GetComponent<KeyBehaviour>().type = type;
+        mKey.GetComponent<KeyBehaviour>().ResetColor();
     }
 
 }

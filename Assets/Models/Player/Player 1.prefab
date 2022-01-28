@@ -154,20 +154,6 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &1249211809
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4205839203623264294}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c5c607e47faa903d2beb9792faa20c6c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  input: {x: 0, y: 0}
-  camPivot: {fileID: 0}
 --- !u!114 &1249211811
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -203,6 +189,10 @@ MonoBehaviour:
   - {fileID: 2100000, guid: 345a42113ec8640bc96785c7c3580f07, type: 2}
   skinnedMeshRenderer: {fileID: 0}
   inventory: {fileID: 0}
+  doingAction: 0
+  plantClip: {fileID: 0}
+  input: {x: 0, y: 0}
+  camPivot: {fileID: 0}
 --- !u!1 &4400911997385797395 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -8391222552659086748, guid: 3e508c83b52c22f39967bf2bccfc2905, type: 3}

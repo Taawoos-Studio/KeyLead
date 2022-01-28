@@ -21,4 +21,9 @@ public class KeyBehaviour : MonoBehaviour, IPickable
     {
         this.GetComponent<MeshRenderer>().material = mats[(int) type];
     }
+
+    public void ResetColor()
+    {
+        this.GetComponent<MeshRenderer>().material = mats[(int) type];
+    }
 }

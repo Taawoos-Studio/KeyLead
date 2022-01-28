@@ -1,3 +1,4 @@
+using System;
 using System.Net;
 using System.Text;
 using System.Collections;
@@ -53,5 +54,14 @@ public class GameManager : MonoBehaviour
         }
 
         SceneManager.LoadScene("Battle Scene");
+    }
+
+    public static void DoActionAfterTime(MonoBehaviour mono, Action action, float time) {
+
+        IEnumerator thing() {
+                yield return new WaitForSeconds(time);
+                action();
+        }
+        mono.StartCoroutine(thing());
     }
 }
