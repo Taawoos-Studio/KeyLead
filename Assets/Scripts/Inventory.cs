@@ -104,7 +104,10 @@ public class Inventory : MonoBehaviour
             }
             break;
             case "Trap": break;
-            case "Gun": break;
+            case "Gun": {
+                player.Shoot();
+            }
+            break;
         }
     }
 

@@ -25,6 +25,10 @@ public class PlayerBehaviour : MonoBehaviour
     private string vValue;
     public Transform camPivot;
 
+    [Header("Shooting")]
+    public GameObject projectile;
+    private bool isShooting = false;
+
     public void Awake()
     {
         this.rb = this.GetComponent<Rigidbody>();
@@ -55,6 +59,22 @@ public class PlayerBehaviour : MonoBehaviour
     public void TriggerDrop()
     {
         this.GetComponent<Animator>().SetTrigger("plant");
+    }
+
+    public void Shoot()
+    {
+        if(!isShooting)
+        {
+            isShooting = true;
+            this.GetComponent<Animator>().SetTrigger("shoot");
+            GameManager.DoActionAfterTime(this, delegate {
+                isShooting = false;
+            }, 1);
+            Vector3 fwd = this.transform.TransformDirection(Vector3.forward);
+            Quaternion rotation = Quaternion.LookRotation(this.transform.forward) * projectile.transform.rotation;
+            var projec = Instantiate(projectile, this.transform.position + new Vector3(0.25f, 0.25f, 0.25f), rotation);
+            projec.GetComponent<Rigidbody>().AddForce(fwd*1000, ForceMode.Acceleration);
+        }
     }
 
     void HandleToggle()
