@@ -5,17 +5,16 @@ using UnityEngine;
 
 public class PlayerBehaviour : MonoBehaviour
 {
-    public int keyCount = 0;
     public ObjectType type;
     public List<Material> playerMaterial = new List<Material>();
     public SkinnedMeshRenderer skinnedMeshRenderer;
     public Inventory inventory;
-    
+
     private bool alreadyToggle = false;
 
     public void Awake()
     {
-        this.skinnedMeshRenderer.material = playerMaterial[(int)type];
+        this.skinnedMeshRenderer.materials[1].color =  (type == ObjectType.Black) ? Color.black : Color.white;
     }
 
     public void FixedUpdate()
@@ -25,22 +24,24 @@ public class PlayerBehaviour : MonoBehaviour
 
     void HandleToggle()
     {
-        if(alreadyToggle) {
-            switch(type)
+        if (alreadyToggle)
+        {
+            switch (type)
             {
                 case ObjectType.Black: alreadyToggle = Input.GetButton("Toggle_1"); break;
                 case ObjectType.White: alreadyToggle = Input.GetButton("Toggle_2"); break;
             }
         }
-        else {
+        else
+        {
             bool toggle = false;
-            switch(type)
+            switch (type)
             {
                 case ObjectType.Black: toggle = Input.GetButton("Toggle_1"); break;
                 case ObjectType.White: toggle = Input.GetButton("Toggle_2"); break;
             }
-            
-            if(toggle)
+
+            if (toggle)
             {
                 inventory.TogglePositive();
                 alreadyToggle = true;
@@ -48,8 +49,11 @@ public class PlayerBehaviour : MonoBehaviour
         }
     }
 
-    void HandlePicking()
+    private void OnTriggerEnter(Collider other)
     {
-        
+        IPickable pickable = other.gameObject.GetComponent<IPickable>();
+        if (pickable != null)
+            if( pickable.TryPick(this) )
+                Destroy(other.gameObject);
     }
 }

@@ -6,11 +6,14 @@ public class KeyBehaviour : MonoBehaviour, IPickable
     public ObjectType type;
     public List<Material> mats = new List<Material>();
 
+    public PickableType pickableType { get => PickableType.Key; }
+
     public bool TryPick(PlayerBehaviour playerBehaviour)
     {
-        if(playerBehaviour.keyCount == 3)
+        if(playerBehaviour.inventory.keyCount == 3)
             return false;
 
+        playerBehaviour.inventory.PickKey(this.type);
         return true;
     }
 

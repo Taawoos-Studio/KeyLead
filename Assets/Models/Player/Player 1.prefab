@@ -199,9 +199,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   type: 0
   playerMaterial:
-  - {fileID: 2100000, guid: d403eb4413b31133a8a6a79e702ee378, type: 2}
-  - {fileID: 2100000, guid: d2272384539580438a943d1076b7662d, type: 2}
+  - {fileID: 2100000, guid: 3fb1e0d50a1e4e75b8945f5780d6c39a, type: 2}
+  - {fileID: 2100000, guid: 345a42113ec8640bc96785c7c3580f07, type: 2}
   skinnedMeshRenderer: {fileID: 0}
+  inventory: {fileID: 0}
 --- !u!1 &4400911997385797395 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -8391222552659086748, guid: 3e508c83b52c22f39967bf2bccfc2905, type: 3}
