@@ -1,10 +1,10 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerBehaviour : MonoBehaviour
+public class PlayerBehaviour : MonoBehaviour, IHitable
 {
+    public float speed = 5;
+    public int id = 0;
     public ObjectType type;
     public List<Material> playerMaterial = new List<Material>();
     public SkinnedMeshRenderer skinnedMeshRenderer;
@@ -29,8 +29,16 @@ public class PlayerBehaviour : MonoBehaviour
     public GameObject projectile;
     private bool isShooting = false;
 
+    private Vector3 respawnPosition;
+
+    public int ID => this.id;
+
+    bool gettingHit = false;
+    bool picking = false;
+
     public void Awake()
     {
+        this.respawnPosition = this.transform.position;
         this.rb = this.GetComponent<Rigidbody>();
 
         if(type == ObjectType.Black) {
@@ -72,8 +80,9 @@ public class PlayerBehaviour : MonoBehaviour
             }, 1);
             Vector3 fwd = this.transform.TransformDirection(Vector3.forward);
             Quaternion rotation = Quaternion.LookRotation(this.transform.forward) * projectile.transform.rotation;
-            var projec = Instantiate(projectile, this.transform.position + new Vector3(0.25f, 0.25f, 0.25f), rotation);
-            projec.GetComponent<Rigidbody>().AddForce(fwd*1000, ForceMode.Acceleration);
+            var projec = Instantiate(projectile, this.transform.position + new Vector3(0, 0.25f, 0), rotation);
+            projec.GetComponent<BulletBehaviour>().hitter = this.ID;
+            projec.GetComponent<Rigidbody>().AddForce(fwd*500, ForceMode.Acceleration);
         }
     }
 
@@ -134,14 +143,44 @@ public class PlayerBehaviour : MonoBehaviour
         
 
         transform.rotation = Quaternion.LookRotation(movement);
-        rb.MovePosition(rb.position + movement * Time.fixedDeltaTime);
+        rb.MovePosition(rb.position + movement * speed * Time.fixedDeltaTime);
     }
 
     private void OnTriggerEnter(Collider other)
     {
         IPickable pickable = other.gameObject.GetComponent<IPickable>();
+        
         if (pickable != null)
-            if( pickable.TryPick(this) )
-                Destroy(other.gameObject);
+        {
+            if(!picking)
+            {
+                picking = true;
+                if( pickable.TryPick(this) )
+                    Destroy(other.gameObject);   
+                GameManager.DoActionAfterTime(this, delegate {
+                    picking = false;
+                }, 1);
+            }
+        }
+    }
+
+    private void Respawn()
+    {
+        this.transform.position = respawnPosition;
+    }
+
+    public void GetHit()
+    {
+        if(!gettingHit)
+        {
+            gettingHit = true;
+            picking = true;
+            if( !inventory.DropARandomKey() )
+                Respawn();
+            GameManager.DoActionAfterTime(this, delegate {
+                gettingHit = false;
+                picking = false;
+            }, 1);
+        }
     }
 }

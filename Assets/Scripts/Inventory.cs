@@ -11,7 +11,17 @@ public class Inventory : MonoBehaviour
 
     [Space]
     public int currentIndex = 0;
-    public int keyCount = 0;
+    public int keyCount
+    {
+        get { 
+            var c = 0; 
+            if(key1!=-1) c+=1;
+            if(key2!=-1) c+=1;
+            if(key3!=-1) c+=1;
+            return c;
+        }
+    }
+    
     public int key1 = -1;
     public int key2 = -1;
     public int key3 = -1;
@@ -154,8 +164,64 @@ public class Inventory : MonoBehaviour
     void pInitKeyWithColor(ObjectType type) {
         var mKey = Instantiate(key, player.transform.position+(player.transform.forward/3*2), Quaternion.identity);
         mKey.transform.position = new Vector3(mKey.transform.position.x, key.transform.position.y, mKey.transform.position.z);
+        float xPos = Mathf.Clamp(mKey.transform.position.x, -7, 7);
+        float zPos = Mathf.Clamp(mKey.transform.position.z, -7, 7);
+        mKey.transform.position = new Vector3(xPos, key.transform.position.y, zPos);
         mKey.GetComponent<KeyBehaviour>().type = type;
         mKey.GetComponent<KeyBehaviour>().ResetColor();
+    }
+
+    public bool DropARandomKey() {
+        if(key3!=-1)
+        {
+            pUnsetInventoryKey(2);
+            var mKey = Instantiate(key, player.transform.position+(player.transform.forward/3*2), Quaternion.identity);
+            
+            float xRand = Random.Range(-2, 2);
+            float zRand = Random.Range(-2, 2);
+            float xPos = Mathf.Clamp(mKey.transform.position.x + xRand, -7, 7);
+            float zPos = Mathf.Clamp(mKey.transform.position.z + zRand, -7, 7);
+            mKey.transform.position = new Vector3(xPos, key.transform.position.y, zPos);
+            
+            mKey.GetComponent<KeyBehaviour>().type = key3 == 1 ? ObjectType.Black : ObjectType.White;
+            mKey.GetComponent<KeyBehaviour>().ResetColor();
+            key3=-1;
+            return true;
+        }
+        else if(key2!=-1)
+        {
+            pUnsetInventoryKey(1);
+            var mKey = Instantiate(key, player.transform.position+(player.transform.forward/3*2), Quaternion.identity);
+            
+            float xRand = Random.Range(-2, 2);
+            float zRand = Random.Range(-2, 2);
+            float xPos = Mathf.Clamp(mKey.transform.position.x + xRand, -7, 7);
+            float zPos = Mathf.Clamp(mKey.transform.position.z + zRand, -7, 7);
+            mKey.transform.position = new Vector3(xPos, key.transform.position.y, zPos);
+            
+            mKey.GetComponent<KeyBehaviour>().type = key2 == 1 ? ObjectType.Black : ObjectType.White;
+            mKey.GetComponent<KeyBehaviour>().ResetColor();
+            key2=-1;
+            return true;
+        }
+        else if(key1!=-1)
+        {
+            pUnsetInventoryKey(0);
+            var mKey = Instantiate(key, player.transform.position+(player.transform.forward/3*2), Quaternion.identity);
+            
+            float xRand = Random.Range(-2, 2);
+            float zRand = Random.Range(-2, 2);
+            float xPos = Mathf.Clamp(mKey.transform.position.x + xRand, -7, 7);
+            float zPos = Mathf.Clamp(mKey.transform.position.z + zRand, -7, 7);
+            mKey.transform.position = new Vector3(xPos, key.transform.position.y, zPos);
+            
+            mKey.GetComponent<KeyBehaviour>().type = key1 == 1 ? ObjectType.Black : ObjectType.White;
+            mKey.GetComponent<KeyBehaviour>().ResetColor();
+            key1=-1;
+            return true;
+        }
+
+        return false;
     }
 
 }
